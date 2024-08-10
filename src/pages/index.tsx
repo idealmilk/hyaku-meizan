@@ -7,7 +7,9 @@ const HomePage = () => {
   return (
     <Layout>
       <Hero />
-      <MountainsGrid />      
+      <div className="absolute top-0 z-10 translate-y-[100vh]">
+        <MountainsGrid />      
+      </div>
     </Layout>
   );
 }

@@ -1,4 +1,4 @@
-import { Text3D } from "@react-three/drei"
+import { Text3D } from '@react-three/drei'
 
 const Floor = () => {
   return (
@@ -6,7 +6,7 @@ const Floor = () => {
       Y
       <meshNormalMaterial />
     </Text3D>
-  );
+  )
 }
 
-export default Floor;
+export default Floor

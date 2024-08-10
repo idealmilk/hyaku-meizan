@@ -1,7 +1,6 @@
-import Header from "@/components/Header";
-import Hero from "@/components/Home/Hero";
-import MountainsGrid from "@/components/Home/Mountains";
-import Layout from "@/components/Layout";
+import Hero from '@/components/Home/Hero'
+import MountainsGrid from '@/components/Home/Mountains'
+import Layout from '@/components/Layout'
 
 const HomePage = () => {
   return (
@@ -11,7 +10,7 @@ const HomePage = () => {
         <MountainsGrid />      
       </div>
     </Layout>
-  );
+  )
 }
 
 export default HomePage

@@ -1,3 +1,5 @@
+import type { TMountain } from '@/interfaces/mountains'
+
 type FeaturedProps = {
   featuredMountain?: TMountain
 }
@@ -13,7 +15,7 @@ const Featured = ({ featuredMountain }: FeaturedProps) => {
         </div>
       )}
     </section>
-  );
+  )
 }
 
 export default Featured

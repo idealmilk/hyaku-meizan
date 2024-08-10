@@ -1,7 +1,6 @@
-import Header from "@/components/Header";
-import Hero from "@/components/Home/Hero";
-import MountainsGrid from "@/components/Home/Mountains";
-import { ReactNode } from "react";
+import type { ReactNode } from 'react'
+
+import Header from '@/components/Header'
 
 type LayoutProps = {
   children: ReactNode;
@@ -13,7 +12,7 @@ const Layout = ({ children }: LayoutProps) => {
       <Header />
       {children}    
     </main>
-  );
+  )
 }
 
 export default Layout

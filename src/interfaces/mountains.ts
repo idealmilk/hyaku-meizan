@@ -1,4 +1,4 @@
-type TMountain = {
+export type TMountain = {
   englishName: string
   japaneseName: string
   prefecture: string[]

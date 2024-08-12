@@ -7,4 +7,5 @@ export type TMountain = {
   rank: number
   elevation: number
   image: string
+  slug: string
 }

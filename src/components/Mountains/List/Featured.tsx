@@ -6,7 +6,7 @@ type FeaturedProps = {
 
 const Featured = ({ featuredMountain }: FeaturedProps) => {
   return (
-    <section className="w-2/5">
+    <section className="sticky top-0 h-full w-2/5 p-10">
       {featuredMountain && (
         <div>
           <h1>{featuredMountain.englishName}</h1>

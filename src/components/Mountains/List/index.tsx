@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import Mountains from '@/data/mountains.json'
+import Mountains from '@/data/mountains'
 
 import Featured from './Featured'
 import Grid from './Grid'
@@ -11,7 +11,7 @@ const MountainList = () => {
   const [ featuredMountain, setFeaturedMountain ] = useState<TMountain | undefined>()
 
   return (
-    <section className="flex h-screen w-full justify-between pl-40 pr-10 pt-20">
+    <section className="relative flex w-full justify-between pl-40 pr-10 pt-20">
       <Grid 
         mountains={Mountains}
         featuredMountain={featuredMountain}

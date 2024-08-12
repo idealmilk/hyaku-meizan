@@ -1,9 +1,10 @@
 import Layout from '@/components/Layout'
+import PageHeader from '@/components/PageHeader'
 
 const HistoryPage = () => {
   return (
     <Layout>
-      <h1>History</h1>
+      <PageHeader title="History" />
     </Layout>
   )
 }

@@ -1,5 +1,7 @@
 import type { Dispatch, SetStateAction } from 'react'
 import Image from 'next/image'
+
+import Link from 'next/link'
 import type { TMountain } from '@/interfaces/mountains'
 
 type GridProps = {
@@ -10,21 +12,24 @@ type GridProps = {
 
 const Grid = ({ mountains, featuredMountain, setFeaturedMountain }: GridProps) => {
   return (
-    <div className="grid w-3/5 grid-cols-3 gap-2 bg-slate-600">
+    <div className="grid w-3/5 grid-cols-3 gap-2">
       {mountains.map((mountain: TMountain) => {
         const isFeatured = mountain === featuredMountain
 
         return (
-          <div
+          <Link
+            href={`/mountains/${mountain.slug}`} 
             key={mountain.rank}
             onMouseOver={() => setFeaturedMountain(mountain)}
             onMouseLeave={() => setFeaturedMountain(undefined)}
           >
-            <h1>{mountain.englishName}</h1>
-            <div className={`${featuredMountain && !isFeatured && 'opacity-30'}`}>
-              <Image src={mountain.image} alt={mountain.englishName} width={300} height={200} />
+            <div >
+              <h1>{mountain.englishName}</h1>
+              <div className={`cursor-pointer transition-opacity ease-in-out ${featuredMountain && !isFeatured && 'opacity-30'}`}>
+                <Image src={mountain.image} alt={mountain.englishName} width={300} height={200} />
+              </div>
             </div>
-          </div>
+          </Link>
         )
       })}
     </div>

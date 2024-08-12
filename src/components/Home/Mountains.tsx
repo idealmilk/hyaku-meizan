@@ -1,4 +1,4 @@
-import Mountains from '@/data/mountains.json'
+import Mountains from '@/data/mountains'
 
 const MountainsGrid = () => {
   return (

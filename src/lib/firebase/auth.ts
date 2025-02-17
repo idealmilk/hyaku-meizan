@@ -4,7 +4,7 @@ import {
 } from 'firebase/auth'
 
 import { auth } from './config'
-import { createUser } from './firestore/users'
+import { createUser, getUserByFirebaseId } from './firestore/users'
 
 type Credentials = {
   email: string;
@@ -50,10 +50,27 @@ export async function signInWithGoogle() {
   const provider = new GoogleAuthProvider()
 
   try {
-    await signInWithPopup(auth, provider)
+    const userCredential = await signInWithPopup(auth, provider)
+    const user = userCredential.user
+
+    if (!user) throw new Error('User not found after Google sign-in')
+
+    const existingUser = await getUserByFirebaseId(user.uid)
+
+    if (!existingUser) {
+      console.log('No user found, creating new user')
+      await createUser({
+        firebaseId: user.uid,
+        email: user.email || '',
+        firstName: user.displayName?.split(' ')[0] || '',
+        lastName: user.displayName?.split(' ')[1] || '',
+      })
+    }
+    else {
+      console.log('Existing user:', existingUser)
+    }
   }
   catch (error) {
-    // eslint-disable-next-line no-console
     console.error('Error signing in with Google', error)
   }
 }

@@ -1,11 +1,11 @@
 export type TMountain = {
+  id: string
   englishName: string
   japaneseName: string
-  prefecture: string[]
+  // prefecture: string[]
   lon: number
   lat: number
-  rank: number
   elevation: number
-  image: string
+  // image: string
   slug: string
 }

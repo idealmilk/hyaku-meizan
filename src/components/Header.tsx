@@ -1,8 +1,13 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useAuth } from '@/hooks/useAuth'
+import { signOut } from '@/lib/firebase/auth'
 
 const Header = () => {
   const router = useRouter()
+  const user = useAuth()
+
+  console.log('user', user?.displayName)
   
   return (
     <header className="fixed top-0 z-10 w-full border-b border-black p-3 text-sm text-black backdrop-blur-md">
@@ -23,9 +28,20 @@ const Header = () => {
             Map
           </Link>
         </nav>
-        <p className="">
-      Login
-        </p>
+        {user ? (
+          <button onClick={signOut}>
+            Logout
+          </button>
+        ) : (
+          <div>
+            <Link href="/login">
+              Login
+            </Link>
+            <Link href="/register">
+              Sign Up
+            </Link>
+          </div>
+        )}
       </div>
     </header>
 

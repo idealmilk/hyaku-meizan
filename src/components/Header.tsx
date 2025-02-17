@@ -29,9 +29,14 @@ const Header = () => {
           </Link>
         </nav>
         {user ? (
-          <button onClick={signOut}>
-            Logout
-          </button>
+          <div className='flex gap-4'>
+            <button onClick={signOut}>
+              Logout
+            </button>
+            <Link href="/account-settings">
+              Account Settings
+            </Link>
+          </div>
         ) : (
           <div>
             <Link href="/login">

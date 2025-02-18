@@ -11,14 +11,19 @@ type Credentials = {
   password: string;
 };
 
-export const signInWithEmail = (credentials: Credentials) => {
+export const signInWithEmail = async (credentials: Credentials) => {
   try {
-    const res = signInWithEmailAndPassword(
+    const userCredential = await signInWithEmailAndPassword(
       auth,
       credentials.email,
       credentials.password,
     )
-    return res
+
+    const user = userCredential.user
+
+    if (!user) throw new Error('User not found after sign-in')
+
+    return userCredential
   }
   catch (err) {
     return err

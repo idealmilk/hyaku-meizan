@@ -26,7 +26,13 @@ const Grid = ({ mountains, featuredMountain, setFeaturedMountain }: GridProps) =
             <div >
               <h1>{mountain.englishName}</h1>
               <div className={`cursor-pointer transition-opacity ease-in-out ${featuredMountain && !isFeatured && 'opacity-30'}`}>
-                <Image src={mountain.image} alt={mountain.englishName} width={300} height={200} />
+                <Image
+                  src={mountain.image}
+                  alt={mountain.englishName}
+                  width={300}
+                  height={200}
+                  style={{ objectFit: 'fill' }}
+                />
               </div>
             </div>
           </Link>

@@ -1,11 +1,22 @@
+import type { DocumentReference, Timestamp } from 'firebase/firestore'
+
 export type TMountain = {
   id: string
   englishName: string
   japaneseName: string
-  // prefecture: string[]
+  prefectures: DocumentReference[]
   lon: number
   lat: number
   elevation: number
-  // image: string
+  description: string
+  image: string
   slug: string
+  createdAt: Timestamp
+  updatedAt: Timestamp
+}
+
+export type TMountainFilter = {
+  minElevation?: number
+  maxElevation?: number
+  prefectureRef?: DocumentReference
 }

@@ -5,7 +5,9 @@ import { signOut } from '@/lib/firebase/auth'
 
 const Header = () => {
   const router = useRouter()
-  const user = useAuth()
+  const { user } = useAuth()
+
+  console.log('user: ', user)
   
   return (
     <header className="fixed top-0 z-10 w-full border-b border-black p-3 text-sm text-black backdrop-blur-md">
@@ -36,7 +38,7 @@ const Header = () => {
             </Link>
           </div>
         ) : (
-          <div>
+          <div className='flex gap-4'>
             <Link href="/login">
               Login
             </Link>

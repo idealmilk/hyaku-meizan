@@ -15,11 +15,13 @@ import { getMountains } from '@/lib/firebase/firestore/mountains'
 
 const MountainList = () => {
   const [ featuredMountain, setFeaturedMountain ] = useState<TMountain | undefined>()
-  const [ minElevation, setMinElevation ] = useState<number>()
+  const [ elevationRange, setElevationRange ] = useState<[number, number]>([ 0, 4000 ])
+
 
   const fetcher = useCallback(async () => {
-    return await getMountains({ minElevation })
-  }, [ minElevation ])
+    const [ minElevation, maxElevation ] = elevationRange
+    return await getMountains({ minElevation, maxElevation })
+  }, [ elevationRange ])
 
   const {
     data: mountains, error, mutate, 
@@ -32,17 +34,19 @@ const MountainList = () => {
 
   return (
     <section className="relative flex w-full justify-between pl-40 pr-10 pt-20">
-      <MountainsFilter
-        mutate={mutate}
-        minElevation={minElevation}
-        setMinElevation={setMinElevation}
-      />
+      <div className='w-3/5'>
+        <MountainsFilter
+          mutate={mutate}
+          elevationRange={elevationRange}
+          setElevationRange={setElevationRange}
+        />
 
-      <Grid 
-        mountains={mountains}
-        featuredMountain={featuredMountain}
-        setFeaturedMountain={setFeaturedMountain}
-      />
+        <Grid 
+          mountains={mountains}
+          featuredMountain={featuredMountain}
+          setFeaturedMountain={setFeaturedMountain}
+        />
+      </div>
       <Featured featuredMountain={featuredMountain} />
     </section>
   )

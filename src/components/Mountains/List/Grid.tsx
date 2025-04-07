@@ -12,7 +12,7 @@ type GridProps = {
 
 const Grid = ({ mountains, featuredMountain, setFeaturedMountain }: GridProps) => {
   return (
-    <div className="grid w-3/5 grid-cols-3 gap-2">
+    <div className="grid grid-cols-3 gap-2">
       {mountains.map((mountain: TMountain) => {
         const isFeatured = mountain === featuredMountain
 

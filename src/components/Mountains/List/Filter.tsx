@@ -1,30 +1,34 @@
 import type { Dispatch, SetStateAction } from 'react'
+import { Slider } from '@/components/ui/slider'
 import type { TMountain } from '@/interfaces/mountains'
 import type { KeyedMutator } from 'swr'
 
 type Props = {
   mutate: KeyedMutator<TMountain[]>
-  minElevation?: number
-  setMinElevation: Dispatch<SetStateAction<number | undefined>>
+  elevationRange: [number, number]
+  setElevationRange: Dispatch<SetStateAction<[number, number]>>
 }
 
-const MountainsFilter = ({ mutate, minElevation, setMinElevation }: Props) => {
+const MountainsFilter = ({ mutate, elevationRange, setElevationRange }: Props) => {
   return (
-    <aside className="absolute left-0 top-0 p-4">
-      <label className="mb-2 block">
-          Min Elevation:
-        <input
-          type="number"
-          value={minElevation ?? ''}
-          onChange={(e) => setMinElevation(Number(e.target.value) || undefined)}
-          className="ml-2 border p-1"
+    <div className="flex justify-between">
+      <label className="mb-4 block w-48">
+        Elevation
+        <Slider
+          value={elevationRange}
+          onValueChange={(val: [number, number]) => setElevationRange(val)}
+          min={0}
+          max={4000}
+          step={1}
+          className="mt-4"
         />
       </label>
 
-      <button onClick={() => mutate()} className="mt-2 rounded bg-blue-500 px-4 py-2 text-white">
-          Apply Filters
+
+      <button onClick={() => mutate()} className="bg-black px-6 py-1 text-white">
+        Apply
       </button>
-    </aside>
+    </div>
   )
 }
 

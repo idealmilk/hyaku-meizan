@@ -12,7 +12,10 @@ export const getPrefectures = async (): Promise<TPrefecture[]> => {
 
   const snapshot = await getDocs(q)
 
-  const data = snapshot.docs.map((doc) => doc.data() as TPrefecture)
+  const data = snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  })) as TPrefecture[]
 
   return data
 }

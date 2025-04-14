@@ -1,15 +1,60 @@
 import type { Dispatch, SetStateAction } from 'react'
-import { Slider } from '@/components/ui/slider'
-import type { TMountain } from '@/interfaces/mountains'
-import type { KeyedMutator } from 'swr'
+import { useState } from 'react'
+import useSWR from 'swr'
 
-type Props = {
-  mutate: KeyedMutator<TMountain[]>
-  elevationRange: [number, number]
-  setElevationRange: Dispatch<SetStateAction<[number, number]>>
+import { Checkbox } from '@/components/ui/checkbox'
+import {
+  Select, SelectContent, SelectGroup, SelectTrigger, SelectValue,
+} from '@/components/ui/select'
+import { Slider } from '@/components/ui/slider'
+import type { TMountainFilter } from '@/interfaces/mountains'
+import type { TPrefecture } from '@/interfaces/prefectures'
+import type { TRegion } from '@/interfaces/regions'
+import { getPrefectures } from '@/lib/firebase/firestore/prefectures'
+import { getRegions } from '@/lib/firebase/firestore/regions'
+
+const prefecturesFetcher = async () => {
+  const data = await getPrefectures()
+  return data
 }
 
-const MountainsFilter = ({ mutate, elevationRange, setElevationRange }: Props) => {
+const regionsFetcher = async () => {
+  const data = await getRegions()
+  return data
+}
+
+type Props = {
+  setFilters: Dispatch<SetStateAction<TMountainFilter>>
+}
+
+const MountainsFilter = ({ setFilters }: Props) => {
+  const { data: prefectures } = useSWR('prefectures', prefecturesFetcher)
+  const { data: regions } = useSWR('regions', regionsFetcher)
+
+  const [ elevationRange, setElevationRange ] = useState<[number, number]>([ 0, 4000 ])
+  const [ selectedPrefectures, setSelectedPrefectures ] = useState<string[]>([])
+  const [ selectedRegions, setSelectedRegions ] = useState<string[]>([])
+
+  const togglePrefecture = (id: string) => {
+    setSelectedPrefectures((prev) =>
+      prev.includes(id) ? prev.filter((p) => p !== id) : [ ...prev, id ],
+    )
+  }
+
+  const toggleRegion = (id: string) => {
+    setSelectedRegions((prev) =>
+      prev.includes(id) ? prev.filter((p) => p !== id) : [ ...prev, id ],
+    )
+  }
+
+  const handleApply = () => {
+    setFilters({
+      minElevation: elevationRange[0],
+      maxElevation: elevationRange[1],
+      prefectureRefs: selectedPrefectures,
+    })
+  }
+  
   return (
     <div className="flex justify-between">
       <label className="mb-4 block w-48">
@@ -24,8 +69,65 @@ const MountainsFilter = ({ mutate, elevationRange, setElevationRange }: Props) =
         />
       </label>
 
+      <Select>
+        <SelectTrigger className="w-44">
+          <SelectValue placeholder="Non selected" />
+        </SelectTrigger>
+        <SelectContent className='h-60'>
+          <SelectGroup>
+            {regions?.map((region: TRegion) => (
+              <div key={region.id} className="flex items-center space-x-2">
+                <Checkbox
+                  id={region.englishName} 
+                  checked={selectedRegions.includes(region.id)}
+                  onCheckedChange={() => {
+                    toggleRegion(region.id)
+                  }}
+                />
+                <label
+                  htmlFor={region.englishName}
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  {region.englishName}
+                </label>
+              </div>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
 
-      <button onClick={() => mutate()} className="bg-black px-6 py-1 text-white">
+
+      <Select>
+        <SelectTrigger className="w-44">
+          <SelectValue placeholder="Non selected" />
+        </SelectTrigger>
+        <SelectContent className='h-60'>
+          <SelectGroup>
+            {prefectures?.map((prefecture: TPrefecture) => (
+              <div key={prefecture.id} className="flex items-center space-x-2">
+                <Checkbox
+                  id={prefecture.englishName} 
+                  checked={selectedPrefectures.includes(prefecture.id)}
+                  onCheckedChange={() => {
+                    togglePrefecture(prefecture.id)
+                  }}
+                  disabled={
+                    selectedRegions.length > 0 && !selectedRegions.includes(prefecture.region.id)
+                  }
+                />
+                <label
+                  htmlFor={prefecture.englishName}
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  {prefecture.englishName}
+                </label>
+              </div>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+
+      <button onClick={handleApply} className="bg-black px-6 py-1 text-white">
         Apply
       </button>
     </div>

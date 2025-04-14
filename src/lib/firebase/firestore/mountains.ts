@@ -10,7 +10,7 @@ const mountainsRef = collection(firestore, 'mountains')
 export const getMountains = async ({
   minElevation,
   maxElevation,
-  prefectureRef,
+  prefectureRefs,
 }: TMountainFilter = {}): Promise<TMountain[]> => {
   let q = query(mountainsRef)
 
@@ -24,8 +24,8 @@ export const getMountains = async ({
     filters.push(where('elevation', '<=', maxElevation))
   }
 
-  if (prefectureRef) {
-    filters.push(where('prefectures', 'array-contains', prefectureRef))
+  if (prefectureRefs) {
+    filters.push(where('prefectures', 'array-contains', prefectureRefs))
   }
 
   if (filters.length > 0) {

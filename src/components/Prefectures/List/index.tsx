@@ -9,9 +9,7 @@ const fetcher = async () => {
 
 const PrefecturesList = () => {
   const { data: prefectures, error } = useSWR('prefectures', fetcher)
-
-  console.log('prefectures: ', prefectures)
-
+  
   if (error) return <p>Error loading prefectures</p>
 
   if (!prefectures) return <p>Loading...</p>

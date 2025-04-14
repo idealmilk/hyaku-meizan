@@ -12,7 +12,10 @@ export const getRegions = async (): Promise<TRegion[]> => {
 
   const snapshot = await getDocs(q)
 
-  const data = snapshot.docs.map((doc) => doc.data() as TRegion)
+  const data = snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  })) as TRegion[]
 
   return data
 }

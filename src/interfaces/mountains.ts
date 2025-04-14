@@ -18,5 +18,5 @@ export type TMountain = {
 export type TMountainFilter = {
   minElevation?: number
   maxElevation?: number
-  prefectureRef?: DocumentReference
+  prefectureRefs?: DocumentReference[] | string[]
 }

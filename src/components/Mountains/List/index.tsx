@@ -1,32 +1,23 @@
-import { useCallback, useState } from 'react'
-
+import { useState } from 'react'
 import useSWR from 'swr'
+
 import Featured from './Featured'
 import MountainsFilter from './Filter'
 import Grid from './Grid'
 
-import type { TMountain } from '@/interfaces/mountains'
+import type { TMountain, TMountainFilter } from '@/interfaces/mountains'
 import { getMountains } from '@/lib/firebase/firestore/mountains'
 
-// const fetcher = async () => {
-//   const data = await getMountains()
-//   return data
-// }
+const fetcher = async (_: string, filter: TMountainFilter) => {
+  const data = await getMountains(filter)
+  return data
+}
 
 const MountainList = () => {
+  const [ filters, setFilters ] = useState<TMountainFilter>({})
   const [ featuredMountain, setFeaturedMountain ] = useState<TMountain | undefined>()
-  const [ elevationRange, setElevationRange ] = useState<[number, number]>([ 0, 4000 ])
 
-
-  const fetcher = useCallback(async () => {
-    const [ minElevation, maxElevation ] = elevationRange
-    return await getMountains({ minElevation, maxElevation })
-  }, [ elevationRange ])
-
-  const {
-    data: mountains, error, mutate, 
-  } = useSWR('mountains', fetcher)
-
+  const { data: mountains, error } = useSWR([ 'mountains', [ filters ]], fetcher)
 
   if (error) return <p>Error loading mountains</p>
 
@@ -35,11 +26,7 @@ const MountainList = () => {
   return (
     <section className="relative flex w-full justify-between pl-40 pr-10 pt-20">
       <div className='w-3/5'>
-        <MountainsFilter
-          mutate={mutate}
-          elevationRange={elevationRange}
-          setElevationRange={setElevationRange}
-        />
+        <MountainsFilter setFilters={setFilters}/>
 
         <Grid 
           mountains={mountains}

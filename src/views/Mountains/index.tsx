@@ -1,55 +1,28 @@
-import { useEffect, useState } from 'react'
-import useSWR from 'swr'
+import { useState } from 'react'
+
 import Layout from '@/components/Layout'
 import PageHeader from '@/components/PageHeader'
 
 import Featured from './components/Featured'
 import MountainsFilter from './components/Filter'
 import Grid from './components/Grid'
-import type { TMountain } from '@/interfaces/mountains'
-import { getMountains } from '@/lib/firebase/firestore/mountains'
+import { useMountainsFilter } from './hooks/useMountainsFilter'
 
-const fetcher = () => {
-  return getMountains()
-}
+import type { TMountain } from '@/interfaces/mountains'
 
 const MountainsView = () => {
-  const { data: mountains, error } = useSWR('mountains', fetcher)
   const [ featuredMountain, setFeaturedMountain ] = useState<TMountain | undefined>()
-  const [ elevationRange, setElevationRange ] = useState<[number, number]>([ 0, 4000 ])
-  const [ selectedPrefectures, setSelectedPrefectures ] = useState<string[]>([])
-  const [ filteredMountains, setFilteredMountains ] = useState<TMountain[]>([])
 
+  const {
+    filteredMountains,
+    error,
+    handleApply,
+    elevationRange,
+    setElevationRange,
+    selectedPrefectures,
+    setSelectedPrefectures,
+  } = useMountainsFilter()
 
-  useEffect(() => {
-    if (mountains) {
-      setFilteredMountains(mountains) // initially show all
-    }
-  }, [ mountains ])
-
-  const handleApply = () => {
-    if (!mountains) return
-
-    const [ minElevation, maxElevation ] = elevationRange
-
-    const result = mountains.filter((mountain) => {
-      if (mountain.elevation < minElevation || mountain.elevation > maxElevation) {
-        return false
-      }
-
-      if (
-        selectedPrefectures.length > 0 && 
-        (!Array.isArray(mountain.prefectures) ||
-        !mountain.prefectures.some((ref) => selectedPrefectures.includes(ref.id)))
-      ) {
-        return false
-      }
-
-      return true
-    })
-
-    setFilteredMountains(result)
-  }
 
   if (error) return <p>Error loading mountains</p>
 

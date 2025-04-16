@@ -13,13 +13,11 @@ import { getPrefectures } from '@/lib/firebase/firestore/prefectures'
 import { getRegions } from '@/lib/firebase/firestore/regions'
 
 const prefecturesFetcher = async () => {
-  const data = await getPrefectures()
-  return data
+  return getPrefectures()
 }
 
 const regionsFetcher = async () => {
-  const data = await getRegions()
-  return data
+  return getRegions()
 }
 
 type Props = {

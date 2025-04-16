@@ -7,34 +7,11 @@ import { firestore } from '@/lib/firebase/config'
 
 const mountainsRef = collection(firestore, 'mountains')
 
-export const getMountains = async ({
-  minElevation,
-  maxElevation,
-  prefectureRefs,
-}: TMountainFilter = {}): Promise<TMountain[]> => {
+export const getMountains = async (): Promise<TMountain[]> => {
   let q = query(mountainsRef)
 
-  const filters = []
-
-  if (minElevation !== undefined) {
-    filters.push(where('elevation', '>=', minElevation))
-  }
-
-  if (maxElevation !== undefined) {
-    filters.push(where('elevation', '<=', maxElevation))
-  }
-
-  if (prefectureRefs) {
-    filters.push(where('prefectures', 'array-contains', prefectureRefs))
-  }
-
-  if (filters.length > 0) {
-    q = query(mountainsRef, ...filters, orderBy('elevation', 'desc'))
-  }
-  else {
-    q = query(mountainsRef, orderBy('elevation', 'desc'))
-  }
-
+  q = query(mountainsRef, orderBy('elevation', 'desc'))
+  
   const snapshot = await getDocs(q)
   const data = snapshot.docs.map((doc) => doc.data() as TMountain)
 

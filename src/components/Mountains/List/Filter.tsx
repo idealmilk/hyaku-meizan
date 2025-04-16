@@ -7,7 +7,6 @@ import {
   Select, SelectContent, SelectGroup, SelectTrigger, SelectValue,
 } from '@/components/ui/select'
 import { Slider } from '@/components/ui/slider'
-import type { TMountainFilter } from '@/interfaces/mountains'
 import type { TPrefecture } from '@/interfaces/prefectures'
 import type { TRegion } from '@/interfaces/regions'
 import { getPrefectures } from '@/lib/firebase/firestore/prefectures'
@@ -24,15 +23,22 @@ const regionsFetcher = async () => {
 }
 
 type Props = {
-  setFilters: Dispatch<SetStateAction<TMountainFilter>>
+elevationRange: [number, number]
+  selectedPrefectures: string[]
+  setElevationRange: Dispatch<SetStateAction<[number, number]>>
+  setSelectedPrefectures: Dispatch<SetStateAction<string[]>>
+  onApply: () => void
 }
 
-const MountainsFilter = ({ setFilters }: Props) => {
+const MountainsFilter = ({
+  elevationRange,
+  selectedPrefectures,
+  setElevationRange,
+  setSelectedPrefectures,
+  onApply,
+}: Props) => {
   const { data: prefectures } = useSWR('prefectures', prefecturesFetcher)
   const { data: regions } = useSWR('regions', regionsFetcher)
-
-  const [ elevationRange, setElevationRange ] = useState<[number, number]>([ 0, 4000 ])
-  const [ selectedPrefectures, setSelectedPrefectures ] = useState<string[]>([])
   const [ selectedRegions, setSelectedRegions ] = useState<string[]>([])
 
   const togglePrefecture = (id: string) => {
@@ -45,14 +51,6 @@ const MountainsFilter = ({ setFilters }: Props) => {
     setSelectedRegions((prev) =>
       prev.includes(id) ? prev.filter((p) => p !== id) : [ ...prev, id ],
     )
-  }
-
-  const handleApply = () => {
-    setFilters({
-      minElevation: elevationRange[0],
-      maxElevation: elevationRange[1],
-      prefectureRefs: selectedPrefectures,
-    })
   }
   
   return (
@@ -127,7 +125,10 @@ const MountainsFilter = ({ setFilters }: Props) => {
         </SelectContent>
       </Select>
 
-      <button onClick={handleApply} className="bg-black px-6 py-1 text-white">
+      <button 
+        onClick={onApply} 
+        className="bg-black px-6 py-1 text-white"
+      >
         Apply
       </button>
     </div>

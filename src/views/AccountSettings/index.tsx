@@ -1,4 +1,4 @@
-import EditAccountForm from '@/components/Account/EditAccountForm'
+import EditAccountForm from '@/views/AccountSettings/components/EditAccountForm'
 
 const AccountSettingsView = () => {
   return (

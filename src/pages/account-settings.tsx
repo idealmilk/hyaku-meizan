@@ -1,6 +1,6 @@
 import Layout from '@/components/Layout'
 import PageHeader from '@/components/PageHeader'
-import AccountSettingsView from '@/views/AccountSettingsView'
+import AccountSettingsView from '@/views/AccountSettings'
 
 const AccountSettingsPage = () => {
   return (

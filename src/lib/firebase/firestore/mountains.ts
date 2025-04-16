@@ -2,15 +2,13 @@ import {
   collection, getDocs, orderBy, query, where, 
 } from 'firebase/firestore'
 
-import type { TMountain, TMountainFilter } from '@/interfaces/mountains'
+import type { TMountain } from '@/interfaces/mountains'
 import { firestore } from '@/lib/firebase/config'
 
 const mountainsRef = collection(firestore, 'mountains')
 
 export const getMountains = async (): Promise<TMountain[]> => {
-  let q = query(mountainsRef)
-
-  q = query(mountainsRef, orderBy('elevation', 'desc'))
+  const q = query(mountainsRef, orderBy('elevation', 'desc'))
   
   const snapshot = await getDocs(q)
   const data = snapshot.docs.map((doc) => doc.data() as TMountain)

@@ -1,5 +1,5 @@
 import Layout from '@/components/Layout'
-import RegisterView from '@/views/RegisterView'
+import RegisterView from '@/views/Register'
 
 const RegisterPage = () => {
   return (

@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import useSWR from 'swr'
+import Layout from '@/components/Layout'
+import PageHeader from '@/components/PageHeader'
 
-import Featured from './Featured'
-import MountainsFilter from './Filter'
-import Grid from './Grid'
-
+import Featured from './components/Featured'
+import MountainsFilter from './components/Filter'
+import Grid from './components/Grid'
 import type { TMountain } from '@/interfaces/mountains'
 import { getMountains } from '@/lib/firebase/firestore/mountains'
 
@@ -12,7 +13,7 @@ const fetcher = () => {
   return getMountains()
 }
 
-const MountainList = () => {
+const MountainsView = () => {
   const { data: mountains, error } = useSWR('mountains', fetcher)
   const [ featuredMountain, setFeaturedMountain ] = useState<TMountain | undefined>()
   const [ elevationRange, setElevationRange ] = useState<[number, number]>([ 0, 4000 ])
@@ -53,27 +54,30 @@ const MountainList = () => {
   if (error) return <p>Error loading mountains</p>
 
   if (!filteredMountains) return <p>Loading...</p>
-
+  
   return (
-    <section className="relative flex w-full justify-between pl-40 pr-10 pt-20">
-      <div className='w-3/5'>
-        <MountainsFilter
-          elevationRange={elevationRange}
-          setElevationRange={setElevationRange}
-          selectedPrefectures={selectedPrefectures}
-          setSelectedPrefectures={setSelectedPrefectures}
-          onApply={handleApply}
-        />
+    <Layout>
+      <PageHeader title="Mountains" />
+      <section className="relative flex w-full justify-between pl-40 pr-10 pt-20">
+        <div className='w-3/5'>
+          <MountainsFilter
+            elevationRange={elevationRange}
+            setElevationRange={setElevationRange}
+            selectedPrefectures={selectedPrefectures}
+            setSelectedPrefectures={setSelectedPrefectures}
+            onApply={handleApply}
+          />
 
-        <Grid 
-          mountains={filteredMountains}
-          featuredMountain={featuredMountain}
-          setFeaturedMountain={setFeaturedMountain}
-        />
-      </div>
-      <Featured featuredMountain={featuredMountain} />
-    </section>
+          <Grid 
+            mountains={filteredMountains}
+            featuredMountain={featuredMountain}
+            setFeaturedMountain={setFeaturedMountain}
+          />
+        </div>
+        <Featured featuredMountain={featuredMountain} />
+      </section>
+    </Layout>
   )
 }
 
-export default MountainList
+export default MountainsView

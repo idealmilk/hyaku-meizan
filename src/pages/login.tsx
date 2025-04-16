@@ -1,5 +1,5 @@
 import Layout from '@/components/Layout'
-import LoginView from '@/views/LoginView'
+import LoginView from '@/views/Login'
 
 const LoginPage = () => {
   return (

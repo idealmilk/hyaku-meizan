@@ -3,7 +3,7 @@ import useSWR from 'swr'
 
 import Layout from '@/components/Layout'
 import { getMountainBySlug } from '@/lib/firebase/firestore/mountains'
-import MountainView from '@/views/MountainView'
+import MountainView from '@/views/Mountain'
 
 export const fetcher = (slug: string) => {
   return getMountainBySlug(slug)

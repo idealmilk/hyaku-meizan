@@ -16,6 +16,7 @@ const Grid = ({ mountains, featuredMountain, setFeaturedMountain }: GridProps) =
       {
         mountains.map((mountain: TMountain) => {
           const isFeatured = mountain === featuredMountain
+          const tempImageUrl = mountain.image.replace(/^\/static/, '')
 
           return (
             <Link
@@ -29,7 +30,7 @@ const Grid = ({ mountains, featuredMountain, setFeaturedMountain }: GridProps) =
                 <div className={`cursor-pointer transition-opacity ease-in-out ${featuredMountain && !isFeatured && 'opacity-30'}`}>
                   <div className="relative h-[160px] w-[240px]">
                     <Image
-                      src={mountain.image}
+                      src={tempImageUrl}
                       alt={mountain.englishName}
                       fill
                       className="object-cover"

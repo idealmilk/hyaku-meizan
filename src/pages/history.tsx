@@ -1,10 +1,10 @@
 import Layout from '@/components/Layout'
-import PageHeader from '@/components/PageHeader'
+import HistoryView from '@/views/History'
 
 const HistoryPage = () => {
   return (
     <Layout>
-      <PageHeader title="History" />
+      <HistoryView />
     </Layout>
   )
 }

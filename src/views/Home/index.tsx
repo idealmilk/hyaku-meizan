@@ -1,3 +1,4 @@
+
 import Hero from './components/Hero'
 import Mountains from './components/Mountains'
 import RecentClimbs from './components/RecentClimbs'

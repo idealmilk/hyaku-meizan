@@ -11,7 +11,7 @@ const MountainHero = ({ image, englishName }: Props) => {
   const tempImageUrl = image.replace(/^\/static/, '')
 
   return (
-    <div className="relative h-[60vh] w-screen">
+    <div className="fixed top-0 h-[70vh] w-screen">
       <Image
         src={tempImageUrl}
         alt={englishName}

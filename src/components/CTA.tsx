@@ -1,9 +1,16 @@
 import { useRouter } from 'next/router'
 
 import { Button } from '@/components/ui/button'
+import { useAuth } from '@/hooks/useAuth'
 
 const CTA = () => {
   const router = useRouter()
+  const { user } = useAuth()
+
+  if (user) {
+    return
+  }
+
   return (
     <section className='bg-yellow'>
       <div className='mx-auto max-w-7xl px-5'>
@@ -12,7 +19,7 @@ const CTA = () => {
             <p className='text-4xl font-bold'>Join the 100. Start climbing</p>
             <p className='font-semibold'>Track your hyakumeizan journey and explore legendary peaks</p>
             <Button className='w-fit' onClick={() => {router.push('/register')}}>
-          Create Account
+              Create Account
             </Button>
           </div>
         </div>

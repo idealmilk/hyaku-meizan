@@ -1,3 +1,4 @@
+
 import MountainHero from './components/Hero'
 import MountainTitle from './components/Title'
 
@@ -7,7 +8,7 @@ import CTA from '@/components/CTA'
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
 
-const MountainView = ({ englishName, image }: TMountain) => {
+const MountainView = ({ englishName, elevation, image }: TMountain) => {
   return (
     <div className='w-screen'>
       <Header />
@@ -16,7 +17,7 @@ const MountainView = ({ englishName, image }: TMountain) => {
         <div className=' bg-black px-5'>
           <div className='mx-auto max-w-7xl px-5'>
             <div className='h-20' />
-            <MountainTitle />
+            <MountainTitle englishName={englishName} elevation={elevation}/>
             <div className='h-20' />
           </div>
         </div>

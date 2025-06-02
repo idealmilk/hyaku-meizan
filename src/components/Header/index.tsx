@@ -1,8 +1,9 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
+import AccountDropdown from './AccountDropdown'
+
 import { useAuth } from '@/hooks/useAuth'
-import { signOut } from '@/lib/firebase/auth'
 
 const Header = () => {
   const router = useRouter()
@@ -29,14 +30,7 @@ const Header = () => {
         </nav>
         {
           user ? (
-            <div className='flex gap-4'>
-              <button onClick={signOut}>
-              Logout
-              </button>
-              <Link href="/account-settings">
-              Account Settings
-              </Link>
-            </div>
+            <AccountDropdown />
           ) : (
             <div className='flex gap-4'>
               <Link href="/login">
